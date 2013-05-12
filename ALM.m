@@ -3,8 +3,11 @@ function [L,S] = ALM(M)
 %	l	:	low-rank matrix, principle component			%
 %	S	:	spare matrix, noise or special feature			%
 %	M	:	origin matrix, can decompose to L + S 			%		
+%	Author	:	corehello						%
+%	Email	:	corehello@gmail.com					%
 %-------------------------------------------------------------------------------%
-
+%	paer	:	Rubost principal component analysis? 2009 stanford tech 
+%			report
 [m,n] = size(M);
 Y = zeros(m,n);
 L = [];

@@ -4,9 +4,10 @@ function writepgm(image,filename)
 %         file to FILENAME.
 %
 % Matthew Dailey 1999
-if ~(image <= 255 & image >= 0)
-error('Image pixels out of range.');
-end;
+[m,n] = size(image);
+% if ~((image <= 255) && (image >= 0))
+% error('Image pixels out of range.');
+% end;
 % Open the file
 %fprintf(1,'Opening %s...\n',filename);
 fid = fopen(filename,'w');

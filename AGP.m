@@ -14,20 +14,25 @@ function [L,S] = AGP(M,lamda)
 L = zeros(m,n,3);
 S = zeros(m,n,3);
 t = ones(1,3);
-miu = 0.1;
-yita = 0.5;
+miu = 0.001;
+yita = 0.1;
 
 
-for k = 0:500
+ k = 0;
+ 
+ while norm(M-L(:,:,mod(k+1,3)+1)-S(:,:,mod(k+1,3)+1),2) > 10^-7*norm(M,2)
+     norm(M-L(:,:,mod(k+1,3)+1)-S(:,:,mod(k+1,3)+1),2) - 10^-7*norm(M,2)
+     pause(0.1)
 	YL = L(:,:,mod(k+1,3)+1)+((t(mod(k,3)+1)-1)/t(mod(k+1,3)+1))*(L(:,:,mod(k+1,3)+1)-L(:,:,mod(k,3)+1));
 	YS = S(:,:,mod(k+1,3)+1)+((t(mod(k,3)+1)-1)/t(mod(k+1,3)+1))*(S(:,:,mod(k+1,3)+1)-S(:,:,mod(k,3)+1));
 	GL = YL - (1/2)*(YL+YS-M);
 	[U,X,V] = svd(GL);
-	L(:,:,mod(k+2,3)+1) = U*stao(X,miu*k/2)*V';
+	L(:,:,mod(k+2,3)+1) = U*stao(X,miu/2)*V';
 	GS = YS - (1/2)*(YL+YS-M);
 	S(:,:,mod(k+2,3)+1) = stao(GS,lamda*miu/2);
 	t(mod(k+2,3)+1) = (1+sqrt(4*t(mod(k+1,2)+1)^2+1))/2;
 	miu  = max(yita*miu,miu);
+    k=k+1;
 end
 
 L = L(:,:,mod(k,3)+1);

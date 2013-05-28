@@ -13,14 +13,15 @@ Y = zeros(m,n);
 L = zeros(m,n);
 S = zeros(m,n);
 
-miu = 0.1;
+miu = m*n/(4*norm(M,1));
 lamda = 1/sqrt(m*n);
-
-for i=1:100
+k=0;
+while norm(M-L-S,2)>10^-7*norm(M,2)
 	[U, sigma, V] = svd(M-S-(1/miu)*Y);
 	L = U*stao(sigma,miu)*V';
 	S = stao(M-L+(1/miu)*Y,lamda*miu);
 	Y = Y + miu * ( M - L - S );
+    k=k+1
 end
 
 
